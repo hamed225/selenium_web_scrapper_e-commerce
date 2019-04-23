@@ -1,10 +1,7 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.firefox.options import Options
 from selenium.common.exceptions import NoSuchElementException
-from time import sleep, strftime
+from time import strftime
 import os
-# from open_tor import OpenTor
 
 
 class ECommerceList(object):
@@ -23,19 +20,10 @@ class ECommerceList(object):
             self.store_url_list.append(store_url)
 
     def get_website(self):
-        """
-        open_tor_browser = OpenTor()
-        open_tor_browser.get_url(url=self.store_url_list[i])
-        assert self.store_name_list[i] in self.browser.title
-        """
         self.driver.get(self.store_url_list[self.i])
         assert self.store_name_list[self.i] in self.driver.title
 
-    """def write_top_page(self, the_upc,):
-        with open(self.file_name, "w") as RFile:
-            RFile.write("For the {0} ".format(the_upc))"""
-
-    def write_to_RFile(self, the_upc, file_name="flask_prce_finder.txt"):
+    def write_to_RFile(self, the_upc, file_name="flask_price_finder.txt"):
         lines_to_write = ["\n\nCurrent time:{0}".format(self.now),
                           "\nStore: {0}".format(self.store_name_list[self.i]),
                           "\nProduct Title: {0}".format(self.product_title),
@@ -49,6 +37,7 @@ class ECommerceList(object):
                 RFile.writelines(lines_to_write)
             else:
                 RFile.writelines(lines_to_write)
+            self.driver.close()
 
 
 class BestBuy(ECommerceList):
@@ -82,14 +71,18 @@ class BestBuy(ECommerceList):
                 product_stock = self.driver.find_element_by_class_name("btn-primary")
                 self.stock = True
                 print("In stock.")
+
             except NoSuchElementException:
                 ActionToRunInCaseNoSuchElement = True
+
             try:
                 product_stock = self.driver.find_element_by_class_name("button-state-sold-out")
                 self.stock = False
                 print("Out of stock.")
+
             except NoSuchElementException:
                 ActionToRunInCaseNoSuchElement = True
+
 
         except NoSuchElementException:
             print("A product satisfying the upc is not found.")
