@@ -5,3 +5,4 @@ Being worked on. Currently supports Amazon and Bestbuy.
 <b>Requirements</b>
 <p>1)selenium</p>
 <p>pip install selenium</p>
+<p>2) Firefox(driver)</p>
